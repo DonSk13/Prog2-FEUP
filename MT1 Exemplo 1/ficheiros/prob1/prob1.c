@@ -74,39 +74,43 @@ lista* encontra_nomes(lista *lst1, lista *lst2)
 /*** problema 1.2 ***/
 int lista_remove_longos(lista *lst, int nomes)
 {
+	//Verifica se há erro de leitura das listas
 	if(lst == NULL)
 	{
 		//printf("Erro na leitura das listas\n");
 		return -1;
 	}
 
+	//Verifica se lista de entrada tem tamanho zero
 	if (lista_tamanho(lst) == 0)
 	{
 		//printf("Lista de entrada com tamanho zero\n");
 		return -1;
 	}
 
-	int i, aux=0, j;
+	int i, aux, j=0;
 	l_elemento *nome;
 
 
 	for (int i=0; i < lst->tamanho; ++i)	
 	{
 		nome = lista_elemento(lst, i);
+		
+    	char *palavra = strtok(nome->str, " "); //Retorna o primeiro espaço
+   
+    	for (aux = 0; palavra != NULL; ++aux)
+    	{
+    		palavra = strtok(NULL, " "); //Conta cada palavra que há em cada string
+    	}
+    	//printf("Palavras:%d\n", aux);
 
-		while (nome->str != '\0')
+		if (aux>nomes)
 		{
-			if (nome->str == ' ' || nome->str == '\n' || nome->str == '\t')
-			{
-				aux++;
-			}
+			lista_remove(lst, nome);
+			j++;		
 		}
-
-		for (int j = 0; j < aux; ++j)
-		 {
-		 	lista_remove(lst, i);
-		 } 
 	}
+	printf("Tamanho da lista: %d\n", lista_tamanho(lst));
 	printf("O número de contactos eliminados é: %d\n", j);
 	return 	j;
 }
