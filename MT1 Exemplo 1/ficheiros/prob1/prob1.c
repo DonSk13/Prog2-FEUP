@@ -86,18 +86,29 @@ int lista_remove_longos(lista *lst, int nomes)
 		return -1;
 	}
 
+	int i, aux=0, j;
 	l_elemento *nome;
+
 
 	for (int i=0; i < lst->tamanho; ++i)	
 	{
 		nome = lista_elemento(lst, i);
 
-		if (strlen(nome) > nomes)
+		while (nome->str != '\0')
 		{
-			lista_remove(lst, i);	
+			if (nome->str == ' ' || nome->str == '\n' || nome->str == '\t')
+			{
+				aux++;
+			}
 		}
+
+		for (int j = 0; j < aux; ++j)
+		 {
+		 	lista_remove(lst, i);
+		 } 
 	}
-	return 	
+	printf("O número de contactos eliminados é: %d\n", j);
+	return 	j;
 }
 
 /*** problema 1.3 ***/
