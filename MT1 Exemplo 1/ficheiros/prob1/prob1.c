@@ -74,7 +74,7 @@ lista* encontra_nomes(lista *lst1, lista *lst2)
 /*** problema 1.2 ***/
 int lista_remove_longos(lista *lst, int nomes)
 {
-	//Verifica se há erro de leitura das listas
+/*	//Verifica se há erro de leitura das listas
 	if(lst == NULL)
 	{
 		//printf("Erro na leitura das listas\n");
@@ -106,23 +106,53 @@ int lista_remove_longos(lista *lst, int nomes)
 
 		if (aux>nomes)
 		{
-			lista_remove(lst, nome);
+			//lista_remove(lst, nome);
 			j++;		
 		}
 	}
 	printf("Tamanho da lista: %d\n", lista_tamanho(lst));
 	printf("O número de contactos eliminados é: %d\n", j);
-	return 	j;
+	return 	j;*/
+	return NULL;
 }
 
 /*** problema 1.3 ***/
 fila* pesquisa_nomes(lista *lst, char *nome)
 {
-/*	if (lista_tamanho(lst) == 0)
+	//Verifica se há erro de leitura das listas
+	if(lst == NULL)
 	{
+		//printf("Erro na leitura das listas\n");
 		return NULL;
-	}*/
-	return NULL;
+	}
+
+	//Verifica se lista de entrada tem tamanho zero
+	if (lista_tamanho(lst) == 0)
+	{
+		//printf("Lista de entrada com tamanho zero\n");
+		return NULL;
+	}
+
+	lista *aux = lista_nova();
+	l_elemento *nomes;
+	int i;
+	nomes = lista_elemento(lst, i);
+
+	for (i = 0; i < lst->tamanho; ++i) 
+	{
+		//Apontador para o elemento da lista
+		nomes = lista_elemento(lst, i);
+    	if (strstr(nomes->str, nome) != NULL) 
+        {
+        	//na lista_insere, NULL dá a posição em que ainda não existe nada e onde pretendemos inserir string
+        	if (lista_insere(aux, nomes->str, NULL) == NULL)
+        	{
+        		return NULL;
+            	//printf("Ocorreu um erro ao inserir uma string na pesquisa parcial\n");
+        	}
+    	}
+	}
+	return aux;
 }
 
 /****************************************************/
