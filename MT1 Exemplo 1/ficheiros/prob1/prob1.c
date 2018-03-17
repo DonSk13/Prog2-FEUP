@@ -11,9 +11,64 @@
 /*** problema 1.1 ***/
 lista* encontra_nomes(lista *lst1, lista *lst2)
 {
-	/* complexidade do algoritmo: ______________ */
+	/* complexidade do algoritmo: O(N²) - Um ciclo for dentro de outro ciclo for */
 
-	return NULL;
+	l_elemento *nome1, *nome2;
+	//int aux2;
+	lista *aux = lista_nova();
+
+	if(lst1 == NULL || lst2 == NULL)
+	{
+		//printf("Erro na leitura das listas\n");
+		return NULL;
+	}
+
+	for (int i=0; i < lst1->tamanho; ++i)	
+	{
+		nome1 = lista_elemento(lst1, i);
+		
+		for (int j = 0; j < lst2->tamanho; ++j)
+		{
+			nome2 = lista_elemento(lst2, j);
+
+			if (strcmp(nome1->str, nome2->str) == 0)
+			{
+				lista_insere(aux, nome1->str, NULL);	
+			}
+		}
+	}
+	//aux2 = lista_tamanho(aux);
+	//printf("Resultado: %d\n", aux2);
+	return aux;
+
+	//outra hipótese de resolução
+
+	/* complexidade do algoritmo: N^2  */
+
+	/*lista *aux = lista_nova();
+	l_elemento * nome1, *nome2;
+
+	if(lst1 == NULL || lst2 == NULL)
+	{
+		return NULL;
+	}
+
+	nome1 = lst1->inicio;
+	while (nome1 != NULL)
+	{
+		nome2 = lst2->inicio;
+		while (aux2 != NULL)
+		{
+			if(strcmp(nome1->str,nome2->str) == 0)
+			{
+				lista_insere(aux,nome1->str,NULL);
+			}
+			nome2 = nome2->proximo;
+		}
+		nome1 = nome1->proximo;
+	}
+
+	return aux;*/
 }
 
 /*** problema 1.2 ***/
