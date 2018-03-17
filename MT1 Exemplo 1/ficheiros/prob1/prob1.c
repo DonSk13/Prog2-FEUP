@@ -46,7 +46,7 @@ lista* encontra_nomes(lista *lst1, lista *lst2)
 	/* complexidade do algoritmo: N^2  */
 
 	/*lista *aux = lista_nova();
-	l_elemento * nome1, *nome2;
+	l_elemento *nome1, *nome2;
 
 	if(lst1 == NULL || lst2 == NULL)
 	{
@@ -74,14 +74,39 @@ lista* encontra_nomes(lista *lst1, lista *lst2)
 /*** problema 1.2 ***/
 int lista_remove_longos(lista *lst, int nomes)
 {
+	if(lst == NULL)
+	{
+		//printf("Erro na leitura das listas\n");
+		return -1;
+	}
 
-	return -1;
+	if (lista_tamanho(lst) == 0)
+	{
+		//printf("Lista de entrada com tamanho zero\n");
+		return -1;
+	}
+
+	l_elemento *nome;
+
+	for (int i=0; i < lst->tamanho; ++i)	
+	{
+		nome = lista_elemento(lst, i);
+
+		if (strlen(nome) > nomes)
+		{
+			lista_remove(lst, i);	
+		}
+	}
+	return 	
 }
 
 /*** problema 1.3 ***/
 fila* pesquisa_nomes(lista *lst, char *nome)
 {
-
+/*	if (lista_tamanho(lst) == 0)
+	{
+		return NULL;
+	}*/
 	return NULL;
 }
 
