@@ -11,29 +11,34 @@
 /*** problema 1.1 ***/
 lista* encontra_nomes(lista *lst1, lista *lst2)
 {
-	/* complexidade do algoritmo: O(N²) - Um ciclo for dentro de outro ciclo for */
+	/* complexidade do algoritmo: O(N²) - Um ciclo dentro de outro ciclo */
 
-	l_elemento *nome1, *nome2;
-	//int aux2;
-	lista *aux = lista_nova();
-
+	//verificação de parâmetros
 	if(lst1 == NULL || lst2 == NULL)
 	{
 		//printf("Erro na leitura das listas\n");
 		return NULL;
 	}
 
+	//iniciação de variáveis
+	l_elemento *nome1, *nome2;
+	//int aux2;
+	lista *aux = lista_nova();
+
+	//ciclo para percorrer toda a lista1
 	for (int i=0; i < lst1->tamanho; ++i)	
 	{
-		nome1 = lista_elemento(lst1, i);
+		nome1 = lista_elemento(lst1, i); //atribui à variável o conteúdo de lst2 na posição i
 		
+		//ciclo para percorrer toda a lista2
 		for (int j = 0; j < lst2->tamanho; ++j)
 		{
-			nome2 = lista_elemento(lst2, j);
+			nome2 = lista_elemento(lst2, j); //atribui à variável o conteúdo de lst2 na posição i
 
+			//Se os conteúdos forem iguas
 			if (strcmp(nome1->str, nome2->str) == 0)
 			{
-				lista_insere(aux, nome1->str, NULL);	
+				lista_insere(aux, nome1->str, NULL);	//o conteúdo é inserido na lista nova
 			}
 		}
 	}
@@ -41,7 +46,7 @@ lista* encontra_nomes(lista *lst1, lista *lst2)
 	//printf("Resultado: %d\n", aux2);
 	return aux;
 
-	//outra hipótese de resolução
+	//outra hipótese de resolução com uma forma diferente de percorrer a lista
 
 	/* complexidade do algoritmo: N^2  */
 
@@ -74,70 +79,64 @@ lista* encontra_nomes(lista *lst1, lista *lst2)
 /*** problema 1.2 ***/
 int lista_remove_longos(lista *lst, int nomes)
 {
-/*	//Verifica se há erro de leitura das listas
-	if(lst == NULL)
+	//Verificação de parâmetros
+	if(lst == NULL || lista_tamanho(lst) == 0 || nomes < 0)
 	{
 		//printf("Erro na leitura das listas\n");
 		return -1;
 	}
 
-	//Verifica se lista de entrada tem tamanho zero
-	if (lista_tamanho(lst) == 0)
-	{
-		//printf("Lista de entrada com tamanho zero\n");
-		return -1;
-	}
-
-	int i, aux, j=0;
+	// Iniciação de variáveis
+	int i, n=0; //n é variável que conta número de palavras removidas!
 	l_elemento *nome;
 
-
-	for (int i=0; i < lst->tamanho; ++i)	
+	nome = lst->inicio; // A variável nome é atribuida ao primeiro valor da lista
+	// Enquanto existirem valores para ser lidos
+	while (nome != NULL)
 	{
-		nome = lista_elemento(lst, i);
-		
-    	char *palavra = strtok(nome->str, " "); //Retorna o primeiro espaço
-   
-    	for (aux = 0; palavra != NULL; ++aux)
-    	{
-    		palavra = strtok(NULL, " "); //Conta cada palavra que há em cada string
-    	}
-    	//printf("Palavras:%d\n", aux);
+		int aux = 1; //Conta palavra inicial!
 
-		if (aux>nomes)
+		for (i = 0; i < strlen(nome->str); i++) ////Percorre caractere a caractere o vetor
 		{
-			//lista_remove(lst, nome);
-			j++;		
+			//se encontrar um espaço contabiliza mais uma palavra
+			if(nome->str[i] == ' ')
+			{
+				aux++;
+			}
+		}
+
+		//Se o número de falavras for maior que o limite estabelecido
+		if(aux > nomes)
+		{
+			nome = lista_remove(lst,nome); //importante! ...quando removes um elemento da lista ligada, deves guardar o apontador para o elemento seguinte ao que é eliminado
+			n++; //conta numero de palavras removidas!
+		}
+		//Se não passar para o elemento seguinte
+		else
+		{
+			nome = nome->proximo;
 		}
 	}
-	printf("Tamanho da lista: %d\n", lista_tamanho(lst));
-	printf("O número de contactos eliminados é: %d\n", j);
-	return 	j;*/
-	return NULL;
+	return n;
 }
 
 /*** problema 1.3 ***/
 fila* pesquisa_nomes(lista *lst, char *nome)
 {
-	//Verifica se há erro de leitura das listas
-	if(lst == NULL)
+	//Verificação de parâmetros
+	if(lst == NULL || lista_tamanho(lst) == 0 || nome == NULL)
 	{
 		//printf("Erro na leitura das listas\n");
 		return NULL;
 	}
 
-	//Verifica se lista de entrada tem tamanho zero
-	if (lista_tamanho(lst) == 0)
-	{
-		//printf("Lista de entrada com tamanho zero\n");
-		return NULL;
-	}
-
+	//Iniciação de variáveis
 	lista *aux = lista_nova();
 	l_elemento *nomes;
 	int i;
 	nomes = lista_elemento(lst, i);
 
+	//Ciclo para percorrer toda a lista
 	for (i = 0; i < lst->tamanho; ++i) 
 	{
 		//Apontador para o elemento da lista
