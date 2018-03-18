@@ -12,7 +12,62 @@
 /*** problema 2 ***/
 float* avalia_expressoes(FILE *ficheiro, int *N)
 {
-	return NULL;
+	//Verificação de parâmetros
+	if (ficheiro == NULL || N == NULL)
+	{
+		//printf("Erro!\n");
+		return NULL;
+	}
+
+	//Declaração de variáveis
+	char str[BUFFER];
+	pilha *p = pilha_nova();
+	float a,b,c;
+	float *res = NULL;
+	int j = 0;
+
+	//Lê o ficheiro
+	while(fgets(str,BUFFER,ficheiro) != NULL)
+	{
+		for (int i=0; i <= strlen(str); i++) //conta também o carater final '\0' !
+		{
+			/*operando*/
+			if(str[i] >= '0' && str[i] <= '9') //verificar se é um caracter entre 0 e 9
+			{
+				pilha_push(p,str[i]-'0'); //converte a string em numerário (float)
+			}
+
+			/*operador*/
+			else if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') //Verifica se é um operador
+			{
+				a = pilha_top(p);
+				pilha_pop(p);
+				b = pilha_top(p);
+				pilha_pop(p);
+
+				switch(str[i])
+				{
+					case '+': c = b + a; break;
+					case '-': c = b - a; break;
+					case '*': c = b * a; break;
+					case '/': c = b / a; break;
+				}
+				
+				pilha_push(p,c);
+			}
+			
+			else if (str[i] == '\0') //quando se chega ao fim da string
+			{
+				res = realloc(res,(j+1)*sizeof(float));
+				res[j]=pilha_top(p);
+				j++;
+			}
+		}
+	}
+
+	*N = j;
+	pilha_apaga(p);
+	return res;
 }
 
 /****************************************************/
