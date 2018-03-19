@@ -55,23 +55,38 @@ int armazem_cheio(armazem* armz)
 /* alinea e) */
 int armazenar_contentor(armazem* armz, contentor* contr)
 {
-	/* devolve nao ha' espaco */
-	pilha *p= pilha_nova();
+    pilha *atual = fila_back(armz->contentores);
+    if(!atual || (atual->tamanho >= armz->altura && fila_tamanho(armz->contentores) < armz->comprimento))
+    {
+        atual = pilha_nova();
+        fila_push(armz->contentores, atual);
+    }
 
-	if (armz == NULL || contr == NULL || armazem_cheio(armz)) 
-	{
-		return 0;
-	}
+    if(atual->tamanho < armz->altura)
+    {
+        pilha_push(atual, contr);
+        return 1;
+    }
 
-	if (armz)
 	return 0;
-
-// (...)
 
 }
 
 /* alinea f) */
 contentor* expedir_contentor(armazem* armz)
 {
-	return NULL;
+   pilha *atual = fila_front(armz->contentores);
+    if(!atual)
+    {
+        return 0;
+    }
+
+    contentor *topo = pilha_top(atual);
+    contentor *novo = contentor_novo(topo->destino, topo->valor);
+    pilha_pop(atual);
+    if(pilha_tamanho(atual) == 0)
+    {
+        fila_pop(armz->contentores);
+    }
+    return novo;
 }
