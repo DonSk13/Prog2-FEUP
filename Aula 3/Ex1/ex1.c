@@ -30,11 +30,7 @@ lista *lista_pesquisa_substring(lista *lst, char *substring)
 		nome = lista_elemento(lst, i);
     	if (strstr(nome->str, substring) != NULL) 
         {
-        	//na lista_insere, NULL dá a posição em que ainda não existe nada e onde pretendemos inserir string
-        	if (lista_insere(aux, nome->str, NULL) == NULL)
-        	{
-            	printf("Ocorreu um erro ao inserir uma string na pesquisa parcial\n");
-        	}
+    		lista_insere(aux, nome->str, NULL);
     	}
 	}
 
@@ -86,38 +82,43 @@ int main()
 
 
 	//Exercício b)
-    //char substr[100];
-    //printf("\nQual a substring desejada?\n");
-    //scanf("%s", substr);
+    //Teste à função criada!
+    //lista *ps2 = lista_nova();
+    //printf("\nOs jogos PS2 são:\n");
+    //ps2 = lista_pesquisa_substring(jogos,"PS2");
+    //lista_imprime(ps2);
+
 
 	//Exercício c)
     lista *jogos2 = lista_pesquisa_substring(jogos,"PS2");
+    l_elemento *text;
 
-    //Dá o tamanho da nova lista de substrings
-    int novo_n = lista_tamanho(jogos2);
-    char *text, *textAux;
-
-    for (int i = 0; i < novo_n; ++i)
+    //Ciclo para percorrer a lista com os jogos todos!
+    text = jogos->inicio;
+    while (text != NULL)
     {
-    	text = lista_elemento(jogos2,i)->str;
-    	for (int j = 0; j < lista_tamanho(jogos); ++j)
+    	//Ciclo para percorrer  alista que contém jogos PS2
+    	for (int j = 0; j < lista_tamanho(jogos2); ++j)
     	{
-    		textAux = lista_elemento(jogos,j)->str;
-    		if (!strcmp(text, textAux))
+    		l_elemento *text2 = lista_elemento (jogos2, j);
+
+    		if (strcmp(text->str, text2->str) == 0)
     		{
-    			lista_remove(jogos, lista_elemento(jogos, j));
+    			text = lista_remove(jogos, text);
     			//break;
     		}
     	}
+
+    	text=text->proximo;
     }
 
-    printf("\nApós remoção de jogos PS2, a lista contém %d jogos\n", lista_tamanho(jogos));
+    printf("\nApós remoção de jogos PS2, a lista contém %d jogos\n", jogos->tamanho);
     
     FILE *txtNovo = fopen ("jogos2.txt", "w");
 
-    for (int k = 0; k < lista_tamanho(jogos); ++k)
+    for (int i = 0; i < lista_tamanho(jogos); ++i)
     {
-    	char *textFile = lista_elemento(jogos,k)->str;
+    	char *textFile = lista_elemento(jogos,i)->str;
     	fputs(textFile,txtNovo);
     	fputs("\n",txtNovo);
     }
